@@ -15,7 +15,22 @@ function App() {
 
   const calculateFaceLocation = (data) => {
 
-    console.log(data);
+    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+    const image = document.getElementById('inputimage');
+    const width = Number(image.width);
+    const height = Number(image.height);
+
+    return {
+      leftCol: clarifaiFace.left_col * 500,
+      topRow: clarifaiFace.top_row * height,
+      rightCol: width - (clarifaiFace.right_col * width),
+      bottomRow: height - (clarifaiFace.bottom_row * height)
+    };
+  }
+
+  const displayFaceBox = (box) => {
+    console.log(box);
+    setBox(box);
   }
 
   const handleDetect = () => {
@@ -51,8 +66,8 @@ function App() {
     };
 
     fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/versions/" + MODEL_VERSION_ID + "/outputs", requestOptions)
-        .then(response => response.text())
-        .then(result => calculateFaceLocation(result))
+        .then(response => response.json())
+        .then(result => displayFaceBox(calculateFaceLocation(result)))
         .catch(error => console.log('error', error));
 
     setShowFaceRecognition(true);
@@ -68,9 +83,11 @@ function App() {
         imageUrl={imageUrl}
         setImageUrl={setImageUrl}
         handleDetect={handleDetect}
+        showFaceRecognition={showFaceRecognition}
+        setShowFaceRecognition={setShowFaceRecognition}
       />
       { showFaceRecognition
-          && <FaceRecognition imageUrl={imageUrl}/>
+          && <FaceRecognition imageUrl={imageUrl} box={box}/>
       }
     </div>
   ); 

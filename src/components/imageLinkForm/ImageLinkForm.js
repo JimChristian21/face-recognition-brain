@@ -4,7 +4,9 @@ import './imageLinkForm.css';
 const ImageLinkForm = ({ 
     imageUrl, 
     setImageUrl,
-    handleDetect
+    handleDetect,
+    showFaceRecognition,
+    setShowFaceRecognition
 }) => {
 
     return (
@@ -18,7 +20,12 @@ const ImageLinkForm = ({
                         className="f4 pa2 w-70" 
                         type="text" 
                         value={imageUrl}
-                        onChange={(e) => setImageUrl(e.target.value)}
+                        onChange={(e) => {
+
+                            setImageUrl(e.target.value)
+                            showFaceRecognition
+                                && setShowFaceRecognition(!showFaceRecognition);
+                        }}
                     />
                     <button 
                         className="w-30 grow f4 link ph3 pv2 div white bg-light-purple"
