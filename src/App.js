@@ -15,6 +15,7 @@ function App() {
   const [showFaceRecognition, setShowFaceRecognition] = useState(false);
   const [box, setBox] = useState([]);
   const [route, setRoute] = useState('signin');
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
   const calculateFaceLocation = (data) => {
 
@@ -70,35 +71,27 @@ function App() {
     fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/versions/" + MODEL_VERSION_ID + "/outputs", requestOptions)
         .then(response => response.json())
         .then(result => displayFaceBox(calculateFaceLocation(result)))
-        .catch(error => console.log('error', error));
+        .catch(error => error);
 
     setShowFaceRecognition(true);
   }
 
-  const handleLogin = () => {
+  const onRouteChange = (name) => {
 
-    setRoute('home');
-  }
+    if (name !== 'signin' ) {
 
-  const handleSignOut = () => {
+      !isSignedIn && setIsSignedIn(!isSignedIn);
+    } else {
 
-    setRoute('signin');
-  }
-
-  const handleRegister = () => {
-
-    setRoute('register');
-  }
-
-  const handleUserStore = () => {
-
-    setRoute('home');
+      isSignedIn && setIsSignedIn(!isSignedIn);
+    }
+    setRoute(name);
   }
 
   return (
     <div className="App">
       <ParticlesBg type="cobweb" bg={true} />
-      <Navigation route={route} handleSignOut={handleSignOut}/>
+      <Navigation isSignedIn={isSignedIn} onRouteChange={onRouteChange}/>
       { route === 'home'
           ? <>
           <Logo />
@@ -116,8 +109,8 @@ function App() {
         </>
           : 
             route === 'signin' 
-              ? <SignIn handleLogin={handleLogin} handleRegister={handleRegister}/>
-              : <Register handleUserStore={handleUserStore}/>
+              ? <SignIn onRouteChange={onRouteChange}/>
+              : <Register onRouteChange={onRouteChange}/>
       }
     </div>
   ); 

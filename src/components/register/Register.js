@@ -1,6 +1,6 @@
 import React from "react";
 
-const Register = ({handleUserStore}) => {
+const Register = ({onRouteChange}) => {
 
     return (
         <article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
@@ -28,7 +28,9 @@ const Register = ({handleUserStore}) => {
                     <div className="lh-copy mt3 pointer">
                         <p
                             className="f6 link dim black db"
-                            onClick={handleUserStore}
+                            onClick={() => {
+                                onRouteChange('home');
+                            }}
                         >
                             Register
                         </p>
