@@ -4,6 +4,8 @@ import Rank from "./components/rank/Rank";
 import ImageLinkForm from "./components/imageLinkForm/ImageLinkForm";
 import FaceRecognition from "./components/faceRecognition/FaceRecognition";
 import ParticlesBg from "particles-bg";
+import SignIn from "./components/Signin/SignIn";
+import Register from "./components/register/Register";
 import './App.css';
 import { useState } from "react";
 
@@ -12,6 +14,7 @@ function App() {
   const [imageUrl, setImageUrl] = useState('');
   const [showFaceRecognition, setShowFaceRecognition] = useState(false);
   const [box, setBox] = useState([]);
+  const [route, setRoute] = useState('signin');
 
   const calculateFaceLocation = (data) => {
 
@@ -29,7 +32,6 @@ function App() {
   }
 
   const displayFaceBox = (box) => {
-    console.log(box);
     setBox(box);
   }
 
@@ -73,21 +75,49 @@ function App() {
     setShowFaceRecognition(true);
   }
 
+  const handleLogin = () => {
+
+    setRoute('home');
+  }
+
+  const handleSignOut = () => {
+
+    setRoute('signin');
+  }
+
+  const handleRegister = () => {
+
+    setRoute('register');
+  }
+
+  const handleUserStore = () => {
+
+    setRoute('home');
+  }
+
   return (
     <div className="App">
       <ParticlesBg type="cobweb" bg={true} />
-      <Navigation />
-      <Logo />
-      <Rank />
-      <ImageLinkForm 
-        imageUrl={imageUrl}
-        setImageUrl={setImageUrl}
-        handleDetect={handleDetect}
-        showFaceRecognition={showFaceRecognition}
-        setShowFaceRecognition={setShowFaceRecognition}
-      />
-      { showFaceRecognition
-          && <FaceRecognition imageUrl={imageUrl} box={box}/>
+      <Navigation route={route} handleSignOut={handleSignOut}/>
+      { route === 'home'
+          ? <>
+          <Logo />
+          <Rank />
+          <ImageLinkForm 
+            imageUrl={imageUrl}
+            setImageUrl={setImageUrl}
+            handleDetect={handleDetect}
+            showFaceRecognition={showFaceRecognition}
+            setShowFaceRecognition={setShowFaceRecognition}
+          />
+          { showFaceRecognition
+              && <FaceRecognition imageUrl={imageUrl} box={box}/>
+          }
+        </>
+          : 
+            route === 'signin' 
+              ? <SignIn handleLogin={handleLogin} handleRegister={handleRegister}/>
+              : <Register handleUserStore={handleUserStore}/>
       }
     </div>
   ); 
