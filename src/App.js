@@ -16,6 +16,18 @@ function App() {
   const [box, setBox] = useState([]);
   const [route, setRoute] = useState('signin');
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [user, setUser] = useState({
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: ''
+  });
+
+  const loadUser = (user) => {
+
+    setUser(user);
+  }
 
   const calculateFaceLocation = (data) => {
 
@@ -95,7 +107,7 @@ function App() {
       { route === 'home'
           ? <>
           <Logo />
-          <Rank />
+          <Rank user={user}/>
           <ImageLinkForm 
             imageUrl={imageUrl}
             setImageUrl={setImageUrl}
@@ -109,8 +121,8 @@ function App() {
         </>
           : 
             route === 'signin' 
-              ? <SignIn onRouteChange={onRouteChange}/>
-              : <Register onRouteChange={onRouteChange}/>
+              ? <SignIn onRouteChange={onRouteChange} loadUser={loadUser}/>
+              : <Register onRouteChange={onRouteChange} setUser={loadUser} />
       }
     </div>
   ); 
