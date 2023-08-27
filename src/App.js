@@ -81,10 +81,28 @@ function App() {
     };
 
     fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/versions/" + MODEL_VERSION_ID + "/outputs", requestOptions)
-        .then(response => response.json())
-        .then(result => displayFaceBox(calculateFaceLocation(result)))
-        .catch(error => error);
-
+      .then(response => response.json())
+      .then(result => {
+        displayFaceBox(calculateFaceLocation(result))
+          
+        fetch('http://localhost:3000/image', {
+          method: 'put',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            id: user.id
+          })
+        })
+        .then(res => res.json())
+        .then(count => setUser({
+          ...user,
+          entries: count
+        }))
+        .catch(err => err);
+      })
+      .catch(error => error);
+      console.log(user);
     setShowFaceRecognition(true);
   }
 
