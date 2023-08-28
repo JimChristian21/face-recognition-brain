@@ -122,6 +122,8 @@ function App() {
         entries: 0,
         joined: ''
       });
+      setShowFaceRecognition(false);
+      setImageUrl('');
     }
     setRoute(name);
   }
