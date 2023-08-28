@@ -108,7 +108,8 @@ function App() {
 
   const onRouteChange = (name) => {
 
-    if (name !== 'signin' ) {
+    if (name !== 'signin' 
+      && name !== 'register') {
 
       !isSignedIn && setIsSignedIn(!isSignedIn);
     } else {
