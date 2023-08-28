@@ -97,7 +97,7 @@ function App() {
         .then(res => res.json())
         .then(count => setUser({
           ...user,
-          entries: count
+          entries: ++user.entries
         }))
         .catch(err => err);
       })
@@ -114,6 +114,13 @@ function App() {
     } else {
 
       isSignedIn && setIsSignedIn(!isSignedIn);
+      setUser({
+        id: '',
+        name: '',
+        email: '',
+        entries: 0,
+        joined: ''
+      });
     }
     setRoute(name);
   }
