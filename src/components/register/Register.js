@@ -10,7 +10,7 @@ const Register = ({onRouteChange, setUser}) => {
 
         e.preventDefault();
 
-        fetch('http://localhost:3000/register', {
+        fetch('https://face-recognition-app-api-6kwt.onrender.com/register', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
@@ -24,7 +24,7 @@ const Register = ({onRouteChange, setUser}) => {
         .then(res => res.json())
         .then(user => {
 
-            if (user) {
+            if (user.id) {
 
                 onRouteChange('home');
                 setUser(user);

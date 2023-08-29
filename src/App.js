@@ -85,7 +85,7 @@ function App() {
       .then(result => {
         displayFaceBox(calculateFaceLocation(result))
           
-        fetch('http://localhost:3000/image', {
+        fetch('https://face-recognition-app-api-6kwt.onrender.com/image', {
           method: 'put',
           headers: {
             'Content-Type': 'application/json'

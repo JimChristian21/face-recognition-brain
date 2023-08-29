@@ -9,7 +9,7 @@ const SignIn = ({ onRouteChange, loadUser }) => {
 
         e.preventDefault();
 
-        fetch('http://localhost:3000/signin', {
+        fetch('https://face-recognition-app-api-6kwt.onrender.com/signin', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
